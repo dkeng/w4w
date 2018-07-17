@@ -9,6 +9,12 @@
 			"revisionTime": "2018-01-18T20:34:23Z"
 		},
 		{
+			"checksumSHA1": "EpHeeZUpvy6NUBzjQGPMHSTokec=",
+			"path": "github.com/dkeng/pkg/convert",
+			"revision": "529822ddccb71bbf31037d1fb67dca2608c5f927",
+			"revisionTime": "2018-07-10T08:45:01Z"
+		},
+		{
 			"checksumSHA1": "zE1h+TpPWTJZg1LTl0UeU70AGAo=",
 			"path": "github.com/dkeng/pkg/logger",
 			"revision": "529822ddccb71bbf31037d1fb67dca2608c5f927",
