@@ -21,7 +21,9 @@ func main() {
 		log.Fatalf("打开存储错误：%s", err.Error())
 		os.Exit(1)
 	}
-	// middleware.Start(nil)
+	// 启动中间件
+	middleware.Start(store)
+	// 启动服务器
 	server.Start()
 
 	quit := make(chan os.Signal)
