@@ -13,11 +13,13 @@ import (
 func main() {
 	// 配置文件
 	config.Init()
-	middleware.Start(nil)
+	// middleware.Start(nil)
 	server.Start()
+
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
+
 	defer close()
 	log.Println("Server exiting")
 }
@@ -26,5 +28,6 @@ func main() {
 func close() {
 	// 关闭中间件
 	middleware.Close()
+	// 关闭服务器
 	server.Close()
 }

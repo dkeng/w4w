@@ -18,16 +18,22 @@ var (
 
 // Start 启动
 func Start() {
-	router := gin.Default()
-	router.Use(middleware.Cors(), middleware.Header(), middleware.RequestRecord())
-	router.LoadHTMLGlob("templates/*")
-	router.GET("/", controller.Index)
-	router.GET("/:key", controller.Short)
+	handler := gin.Default()
+	// 加载中间件
+	handler.Use(middleware.Cors(), middleware.Header(), middleware.RequestRecord())
+	// 加载模板
+	handler.LoadHTMLGlob("templates/*")
+
+	handler.GET("/", controller.Index)
+	handler.GET("/:key", controller.RedirectShort)
+	// api
+	api := handler.Group("/api", API())
+	setGroupRouter(api, apiRoute)
+
 	httpServer = &http.Server{
 		Addr:    viper.GetString("system.addr"),
-		Handler: router,
+		Handler: handler,
 	}
-
 	go func() {
 		if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)
