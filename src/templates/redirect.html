@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>跳转中</title>
+</head>
+
+<body>
+    <script>
+        var time = setInterval(showTime, 1000);
+        var second = 5;
+        function showTime() {
+            if (second == 0) {
+                window.location = "{{ .url }}";
+                clearInterval(time);
+            }
+            document.body.innerHTML = '<font>' + second + 's</font> 后将跳转到银行卡认证页面。';
+            second--;
+        }
+    </script>
+</body>
+
+</html>

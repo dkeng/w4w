@@ -14,3 +14,13 @@ func TestShort(t *testing.T) {
 	}
 	fmt.Println(resultURL)
 }
+
+func TestFormatURL(t *testing.T) {
+	inputURL := "http://www.baidu.com"
+	fmt.Println(core.FormatURL(inputURL))
+}
+
+func TestCheckURL(t *testing.T) {
+	inputURL := "https://www.baidu.com"
+	fmt.Println(core.CheckURL(inputURL))
+}

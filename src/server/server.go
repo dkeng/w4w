@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/dkeng/w4w/src/api/controller"
+	"github.com/dkeng/w4w/src/api/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
@@ -14,21 +16,13 @@ var (
 	httpServer *http.Server
 )
 
-// Startup 启动
-func Startup() {
+// Start 启动
+func Start() {
 	router := gin.Default()
+	router.Use(middleware.Cors(), middleware.Header(), middleware.RequestRecord())
 	router.LoadHTMLGlob("templates/*")
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"title": "Main website",
-		})
-	})
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-
+	router.GET("/", controller.Index)
+	router.GET("/:key", controller.Short)
 	httpServer = &http.Server{
 		Addr:    viper.GetString("system.addr"),
 		Handler: router,

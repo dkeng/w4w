@@ -3,6 +3,9 @@ package core
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"errors"
+	"regexp"
+	"strings"
 
 	"github.com/dkeng/pkg/convert"
 )
@@ -41,4 +44,28 @@ func ShortURL(url string) ([4]string, error) {
 		resultURL[i] = outChars
 	}
 	return resultURL, nil
+}
+
+// FormatURL 格式化URL
+func FormatURL(url string) (string, error) {
+	if strings.Index(url, "http://") != 0 && strings.Index(url, "https://") != 0 {
+		url = "http://" + url
+	}
+	err := CheckURL(url)
+	if err != nil {
+		return "", err
+	}
+	return url, nil
+}
+
+// CheckURL 检查URL
+func CheckURL(url string) error {
+	b, err := regexp.MatchString("^((https|http|ftp|rtsp|mms)?:\\/\\/)+[A-Za-z0-9]+\\.[A-Za-z0-9]+[\\/=\\?%\\-&_~`@[\\]\\':+!]*([^<>\"\"])*", url)
+	if err != nil {
+		return err
+	}
+	if !b {
+		return errors.New("URL格式不正确")
+	}
+	return nil
 }

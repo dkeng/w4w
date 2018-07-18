@@ -1,3 +1,16 @@
 [system]
+# 主程序端口
 addr = "0.0.0.0:5000"
+# 模式 debug/release
 mode = "debug"
+[db]
+# 数据库
+dialect = "mysql"
+# 数据库连接字符串
+address = ""
+# 是否开启数据库日志
+log = true
+# 最大连接
+max_open = 100
+# 最大闲置
+max_idle = 10
