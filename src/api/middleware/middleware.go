@@ -1,17 +1,15 @@
 package middleware
 
-import (
-	cstore "couponwebapi/src/store"
-)
+import wstore "github.com/dkeng/w4w/src/store"
 
 var (
 	run = false
 )
 
 // Start 启动
-func Start(store *cstore.Store) {
+func Start(store *wstore.Store) {
 	run = true
-	go func(s *cstore.Store) {
+	go func(s *wstore.Store) {
 		for {
 			select {
 			case r := <-requestRecord:

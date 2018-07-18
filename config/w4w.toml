@@ -7,7 +7,7 @@ mode = "debug"
 # 数据库
 dialect = "mysql"
 # 数据库连接字符串
-address = ""
+address = "root:123456@tcp(127.0.0.1:3306)/w4w?charset=utf8&parseTime=True"
 # 是否开启数据库日志
 log = true
 # 最大连接

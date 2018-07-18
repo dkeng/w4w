@@ -5,6 +5,8 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/dkeng/w4w/src/store"
+
 	"github.com/dkeng/w4w/src/api/middleware"
 	"github.com/dkeng/w4w/src/config"
 	"github.com/dkeng/w4w/src/server"
@@ -13,6 +15,12 @@ import (
 func main() {
 	// 配置文件
 	config.Init()
+	store := new(store.Store)
+	err := store.Open()
+	if err != nil {
+		log.Fatalf("打开存储错误：%s", err.Error())
+		os.Exit(1)
+	}
 	// middleware.Start(nil)
 	server.Start()
 

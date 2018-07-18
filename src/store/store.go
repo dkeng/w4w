@@ -1,8 +1,8 @@
 package store
 
 import (
-	"github.com/dkeng/cogo/src/entity"
 	"github.com/dkeng/pkg/logger"
+	"github.com/dkeng/w4w/src/entity"
 	"github.com/spf13/viper"
 	// mysql
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -42,8 +42,9 @@ func (s *Store) Open() (err error) {
 	// db.DB().SetConnMaxLifetime(time.Hour)
 
 	db.AutoMigrate(
-		&entity.Application{},
-		&entity.Config{},
+		&entity.Link{},
+		&entity.RedirectRecord{},
+		&entity.RequestRecord{},
 	)
 	s.DB = db
 	return
