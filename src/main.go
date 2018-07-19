@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 	"os/signal"
@@ -12,9 +13,29 @@ import (
 	"github.com/dkeng/w4w/src/server"
 )
 
+var (
+	flagConfig string
+	flagHelp   bool
+)
+
+func init() {
+	flag.StringVar(&flagConfig, "config", "config/w4w.toml", "配置文件")
+	flag.BoolVar(&flagHelp, "help", false, "帮助")
+	flag.Parse()
+}
+func float() bool {
+	if flagHelp {
+		flag.PrintDefaults()
+		return false
+	}
+	return true
+}
 func main() {
+	if !float() {
+		return
+	}
 	// 配置文件
-	config.Init()
+	config.Init(flagConfig)
 	store := new(store.Store)
 	err := store.Open()
 	if err != nil {

@@ -10,9 +10,9 @@ import (
 )
 
 // Init 配置文件初始化
-func Init() {
+func Init(in string) {
 	// 初始化配置文件
-	viper.SetConfigFile("../config/w4w.toml")
+	viper.SetConfigFile(in)
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("读取配置文件错误：%s", err.Error())
 		os.Exit(1)
