@@ -72,11 +72,12 @@ func NewMySQL(s *Store) *AllStore {
 }
 
 // Init 初始化
-func (m *AllStore) Init(s *Store) {
+func (m *AllStore) Init(s *Store) *AllStore {
 	switch viper.GetString("db.dialect") {
 	case "mysql":
-		m = NewMySQL(s)
+		return NewMySQL(s)
 	}
+	return nil
 }
 
 func getLimitOffset(page, perPage *int) *int {

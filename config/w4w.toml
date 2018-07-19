@@ -3,6 +3,8 @@
 addr = "0.0.0.0:5000"
 # 模式 debug/release
 mode = "debug"
+# 网站URL
+website_url = "http://w4w.cc"
 [db]
 # 数据库
 dialect = "mysql"

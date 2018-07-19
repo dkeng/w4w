@@ -18,16 +18,31 @@ func (l *LinkStore) Init(db *gorm.DB) *LinkStore {
 }
 
 // Exist 判断URL是否存在
-func (l *LinkStore) Exist(url string) {
-
+func (l *LinkStore) Exist(url string) bool {
+	var count int64
+	l.Db.Model(&entity.Link{}).Where("url = ?", url).Count(&count)
+	if count > 0 {
+		return true
+	}
+	return false
 }
 
 // Add 添加链接
-func (l *LinkStore) Add(link *entity.Link) {
-
+func (l *LinkStore) Add(link *entity.Link) bool {
+	if err := l.Db.Create(&link).Error; err != nil {
+		return false
+	}
+	return true
 }
 
 // QueryByShort 根据短链接获取
 func (l *LinkStore) QueryByShort(short string) *entity.Link {
-	return nil
+	var link entity.Link
+	err := l.Db.First(&link, "short = ?", short).Error
+	if err == gorm.ErrRecordNotFound {
+		return nil
+	} else if err != nil {
+		return nil
+	}
+	return &link
 }
