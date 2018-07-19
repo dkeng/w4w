@@ -169,7 +169,14 @@
 			text-align: right;
 			margin: 10px 5px 100px
 		}
-
+		.show {
+			display: none;
+			width: 728px;
+			color: #4f4f4f;
+			text-align: left;
+			padding: 0px;
+			margin-bottom: 100px;
+		}
 		.n {
 			width: 200px;
 			padding: 5px 3px;
@@ -273,56 +280,86 @@
 
 		<div>
 			<div class="url">
-				<form name="urlform" method="post" action="" onsubmit="return form1_onsubmit()">
-					<p>
-						<input type="text" id="add-url" name="url" placeholder="输入您想缩短的长网址如   http://www.baidu.com" value="" size="80" />
-			</div>
-
-
-			<div class="shorten">
-				<button type="button">生 成</button>
-			</div>
-			</form>
-			<div class="ad">
-				<table class="grid">
-					<thead>
-						<tr>
-							<td>短链接</td>
-							<td>24小时短网址热度排行</td>
-							<td>人气</td>
-						</tr>
-					</thead>
-					<tr>
-						<td>http://w4w.cc</td>
-						<td>
-							<a href="http://w4w.cc" target="_blank">w4w短网址</a>
-						</td>
-						<td>88888</td>
-					</tr>
-				</table>
-				<br />
-				<div class="foot">
-					<!-- Place this tag where you want the button to render. -->
-					<a class="github-button" href="https://github.com/dkeng/w4w/subscription" data-icon="octicon-eye" aria-label="Watch dkeng/w4w on GitHub">Watch</a>
-					<!-- Place this tag where you want the button to render. -->
-					<a class="github-button" href="https://github.com/dkeng/w4w" data-icon="octicon-star" aria-label="Star dkeng/w4w on GitHub">Star</a>
-					<!-- Place this tag where you want the button to render. -->
-					<a class="github-button" href="https://github.com/dkeng/w4w/fork" data-icon="octicon-repo-forked" aria-label="Fork dkeng/w4w on GitHub">Fork</a>
+				<p>
+					<input type="text" id="add-url" name="url" placeholder="输入您想缩短的长网址如   http://www.baidu.com" value="" size="80" />
+				</p>
+				<div class="shorten">
+					<button id="btn" type="button">生 成</button>
 				</div>
-			</div>
-			<!-- Place this tag in your head or just before your close body tag. -->
-			<script async defer src="https://buttons.github.io/buttons.js"></script>
-			<script language="javascript">  function form1_onsubmit() {
-					var urlreg = /^((https|http|ftp|rtsp|mms)?:\/\/)+[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/
-					var url = document.urlform.url.value
-					if (url.length == 0) return;
-					if (!urlreg.test(url)) {
-						alert("请输入正确的网址！")
-						document.urlform.url.focus()
-						return false
+				<div class="show">
+					<p id="short_link1"></p>
+					<img id="short_link_qrcode1" />
+					<p id="short_link2"></p>
+					<img id="short_link_qrcode2" />
+				</div>
+				<div class="ad">
+					<table class="grid">
+						<thead>
+							<tr>
+								<td>短链接</td>
+								<td>24小时短网址热度排行</td>
+								<td>人气</td>
+							</tr>
+						</thead>
+						<tr>
+							<td>http://w4w.cc</td>
+							<td>
+								<a href="http://w4w.cc" target="_blank">w4w短网址</a>
+							</td>
+							<td>88888</td>
+						</tr>
+					</table>
+					<br />
+					<div class="foot">
+						<!-- Place this tag where you want the button to render. -->
+						<a class="github-button" href="https://github.com/dkeng/w4w/subscription" data-icon="octicon-eye" aria-label="Watch dkeng/w4w on GitHub">Watch</a>
+						<!-- Place this tag where you want the button to render. -->
+						<a class="github-button" href="https://github.com/dkeng/w4w" data-icon="octicon-star" aria-label="Star dkeng/w4w on GitHub">Star</a>
+						<!-- Place this tag where you want the button to render. -->
+						<a class="github-button" href="https://github.com/dkeng/w4w/fork" data-icon="octicon-repo-forked" aria-label="Fork dkeng/w4w on GitHub">Fork</a>
+					</div>
+				</div>
+				<script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+				<!-- Place this tag in your head or just before your close body tag. -->
+				<script async defer src="https://buttons.github.io/buttons.js"></script>
+				<script language="javascript">
+
+					$(document).ready(function () {
+						$('#btn').on('click', function () {
+							$('.show').hide()
+							var url = $('#add-url').val();
+							if (check(url)) {
+								$.ajax({
+									url: '/api/short',
+									type: 'post',
+									data: { url: url },
+									dataType: 'json',
+									success: function (data) {
+										$('#short_link1').text(data.short_link1)
+										$('#short_link2').text(data.short_link2)
+										$('#short_link_qrcode1').attr('src',data.short_link_qrcode1)
+										$('#short_link_qrcode2').attr('src',data.short_link_qrcode2)
+										$('.show').show()
+									},
+									error: function (err) {
+										console.log(err)
+										alert('创建链接失败')
+									}
+								})
+							}
+						});
+					});
+
+					function check(url) {
+						var urlreg = /^((https|http|ftp|rtsp|mms)?:\/\/)+[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/
+						if (url.length == 0) return;
+						if (!urlreg.test(url)) {
+							alert("请输入正确的网址！")
+							return false
+						}
+						return true
 					}
-				}
-			</script>
+				</script>
 </body>
 
 </html>
