@@ -12,12 +12,12 @@ func Start(store *wstore.Store) {
 	go func(s *wstore.Store) {
 		for {
 			select {
-			case r := <-requestRecord:
+			case r := <-RedirectRecord:
 				s.DB.Create(r)
 			}
 			// 用户主动关闭，如果请求记录管道内容为空，关闭管道
-			if !run && len(requestRecord) == 0 {
-				close(requestRecord)
+			if !run && len(RedirectRecord) == 0 {
+				close(RedirectRecord)
 				break
 			}
 		}

@@ -22,7 +22,7 @@ var (
 func Start(store *store.Store) {
 	handler := gin.Default()
 	// 加载中间件
-	handler.Use(middleware.Cors(), middleware.Header(), middleware.RequestRecord())
+	handler.Use(middleware.Cors(), middleware.Header())
 	// 加载模板
 	handler.LoadHTMLGlob("templates/*")
 

@@ -45,7 +45,6 @@ func (s *Store) Open() (err error) {
 	db.AutoMigrate(
 		&entity.Link{},
 		&entity.RedirectRecord{},
-		&entity.RequestRecord{},
 	)
 	s.DB = db
 	return

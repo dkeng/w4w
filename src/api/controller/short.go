@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/dkeng/w4w/src/api/middleware"
 	"github.com/dkeng/w4w/src/core"
 	"github.com/dkeng/w4w/src/entity"
 	"github.com/dkeng/w4w/src/server/router"
@@ -46,7 +47,9 @@ func (s *ShortController) RedirectShort(c *gin.Context) {
 		c.String(http.StatusNotFound, "短链接不存在")
 		return
 	}
+	refererType := 1
 	if flag {
+		refererType = 2
 		// 页面重定向
 		c.HTML(http.StatusOK, "redirect.html", gin.H{
 			"url": link.URL,
@@ -55,6 +58,19 @@ func (s *ShortController) RedirectShort(c *gin.Context) {
 		// 302 临时重定向
 		c.Redirect(http.StatusFound, link.URL)
 	}
+
+	defer func() {
+		rr := &entity.RedirectRecord{
+			Referer:     c.Request.Referer(),
+			RefererType: refererType,
+			Path:        c.Request.URL.Path,
+			RawQuery:    c.Request.URL.RawQuery,
+			ClientIP:    c.ClientIP(),
+			UserAgent:   c.Request.UserAgent(),
+		}
+		// 请求消息入队
+		middleware.RedirectRecord <- rr
+	}()
 }
 
 type shortModel struct {
