@@ -3,6 +3,7 @@ package store
 import (
 	"github.com/dkeng/pkg/logger"
 	"github.com/dkeng/w4w/src/entity"
+	smysql "github.com/dkeng/w4w/src/store/mysql"
 	"github.com/spf13/viper"
 	// mysql
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -59,11 +60,23 @@ func (s *Store) Close() {
 
 // AllStore 所有存储
 type AllStore struct {
+	LinkStore           LinkStore
+	RedirectRecordStore RedirectRecordStore
+}
+
+// NewMySQL 存储
+func NewMySQL(s *Store) *AllStore {
+	return &AllStore{
+		LinkStore: new(smysql.LinkStore).Init(s.DB),
+	}
 }
 
 // Init 初始化
 func (m *AllStore) Init(s *Store) {
-
+	switch viper.GetString("db.dialect") {
+	case "mysql":
+		m = NewMySQL(s)
+	}
 }
 
 func getLimitOffset(page, perPage *int) *int {
