@@ -219,6 +219,24 @@
 			"revisionTime": "2018-07-12T20:16:18Z"
 		},
 		{
+			"checksumSHA1": "4xiFcTuGN52sL6Cu9CLSIq48RT8=",
+			"path": "github.com/skip2/go-qrcode",
+			"revision": "cf5f9fa2f0d847edb8e038db7ed975e239095e1a",
+			"revisionTime": "2017-12-29T12:04:47Z"
+		},
+		{
+			"checksumSHA1": "xkuxp8PnGrQUsIXMiIOCk4U5IGw=",
+			"path": "github.com/skip2/go-qrcode/bitset",
+			"revision": "cf5f9fa2f0d847edb8e038db7ed975e239095e1a",
+			"revisionTime": "2017-12-29T12:04:47Z"
+		},
+		{
+			"checksumSHA1": "UtPg/z5chOpfiJvr29Or0oUx1Bs=",
+			"path": "github.com/skip2/go-qrcode/reedsolomon",
+			"revision": "cf5f9fa2f0d847edb8e038db7ed975e239095e1a",
+			"revisionTime": "2017-12-29T12:04:47Z"
+		},
+		{
 			"checksumSHA1": "wsfbX7YxbkeBp+xm9M9nBFzrCnA=",
 			"path": "github.com/spf13/afero",
 			"revision": "787d034dfe70e44075ccc060d346146ef53270ad",
