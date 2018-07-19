@@ -1,9 +1,6 @@
-package server
+package router
 
 import (
-	"net/http"
-
-	"github.com/dkeng/w4w/src/api/controller"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,17 +12,6 @@ type R struct {
 	Desc    string             // description for the method
 }
 
-var (
-	apiRoute = []*R{
-		&R{
-			Method:  http.MethodPost,
-			Path:    "/short",
-			Handler: controller.AddShort,
-			Desc:    "添加链接",
-		},
-	}
-)
-
 // API Api
 func API() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -33,8 +19,14 @@ func API() gin.HandlerFunc {
 	}
 }
 
-func setGroupRouter(rg *gin.RouterGroup, routes []*R) {
-	for _, v := range routes {
+// SetGroupRouter 设置分组路由
+func SetGroupRouter(rg *gin.RouterGroup, r Router) {
+	for _, v := range r.GetRouter() {
 		rg.Handle(v.Method, v.Path, v.Handler)
 	}
+}
+
+// Router 路由接口
+type Router interface {
+	GetRouter() []*R
 }

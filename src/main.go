@@ -45,7 +45,7 @@ func main() {
 	// 启动中间件
 	middleware.Start(store)
 	// 启动服务器
-	server.Start()
+	server.Start(store)
 
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)

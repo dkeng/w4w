@@ -3,11 +3,36 @@ package controller
 import (
 	"net/http"
 
+	"github.com/dkeng/w4w/src/server/router"
+	"github.com/dkeng/w4w/src/store"
 	"github.com/gin-gonic/gin"
 )
 
+// ShortController Short
+type ShortController struct {
+	linkStore store.LinkStore
+}
+
+// Init 初始化 ShortController
+func (s *ShortController) Init(allStore *store.AllStore) *ShortController {
+	s.linkStore = allStore.LinkStore
+	return s
+}
+
+// GetRouter 获取 ShortController 路由
+func (s *ShortController) GetRouter() []*router.R {
+	return []*router.R{
+		&router.R{
+			Method:  http.MethodPost,
+			Path:    "/short",
+			Handler: s.AddShort,
+			Desc:    "添加短链接",
+		},
+	}
+}
+
 // RedirectShort 短链接
-func RedirectShort(c *gin.Context) {
+func (s *ShortController) RedirectShort(c *gin.Context) {
 	// key := c.Param("key")
 	_, flag := c.GetQuery("302")
 	url := "http://www.baidu.com"
@@ -21,7 +46,7 @@ func RedirectShort(c *gin.Context) {
 }
 
 // AddShort 添加短链接
-func AddShort(c *gin.Context) {
+func (s *ShortController) AddShort(c *gin.Context) {
 
 	result := resultShort{
 		ShortLink1:       "",
