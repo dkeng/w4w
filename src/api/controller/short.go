@@ -61,6 +61,7 @@ func (s *ShortController) RedirectShort(c *gin.Context) {
 
 	defer func() {
 		rr := &entity.RedirectRecord{
+			LinkID:      link.ID,
 			Referer:     c.Request.Referer(),
 			RefererType: refererType,
 			Path:        c.Request.URL.Path,
