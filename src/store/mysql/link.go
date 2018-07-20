@@ -17,10 +17,20 @@ func (l *LinkStore) Init(db *gorm.DB) *LinkStore {
 	return l
 }
 
-// Exist 判断URL是否存在
-func (l *LinkStore) Exist(url string) bool {
+// ExistURL 判断URL是否存在
+func (l *LinkStore) ExistURL(url string) bool {
 	var count int64
 	l.Db.Model(&entity.Link{}).Where("url = ?", url).Count(&count)
+	if count > 0 {
+		return true
+	}
+	return false
+}
+
+// ExistShort 判断短链接是否存在
+func (l *LinkStore) ExistShort(url string) bool {
+	var count int64
+	l.Db.Model(&entity.Link{}).Where("short = ?", url).Count(&count)
 	if count > 0 {
 		return true
 	}

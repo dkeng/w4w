@@ -107,11 +107,12 @@ func (s *ShortController) AddShort(c *gin.Context) {
 	shortURL := ""
 	// 添加不存在的
 	for i := 0; i < 4; i++ {
-		exit := s.linkStore.Exist(shortURLs[i])
-		if exit {
-			continue
-		}
 		shortURL = shortURLs[i]
+		exit := s.linkStore.ExistShort(shortURL)
+		if exit {
+			add = true
+			break
+		}
 		link := &entity.Link{
 			URL:   url,
 			Short: shortURL,
