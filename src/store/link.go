@@ -16,6 +16,8 @@ type LinkStore interface {
 	QueryIDByShort(short string) int64
 	// QueryInID 根据多个ID获取多个内容
 	QueryInID(ids ...int64) []*entity.Link
+	// QueryByID 根据ID获取内容
+	QueryByID(id int64) *entity.Link
 	// UpdateTitleByURL 根据URL修改标题
 	UpdateTitleByURL(url, title string)
 }

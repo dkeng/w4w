@@ -71,6 +71,13 @@ func (l *LinkStore) QueryInID(ids ...int64) []*entity.Link {
 	return links
 }
 
+// QueryByID 根据ID获取内容
+func (l *LinkStore) QueryByID(id int64) *entity.Link {
+	var link entity.Link
+	l.Db.Find(&link, id)
+	return &link
+}
+
 // UpdateTitleByURL 根据URL修改标题
 func (l *LinkStore) UpdateTitleByURL(url, title string) {
 	l.Db.Table("links").Where("url = ?", url).UpdateColumn("title", title)

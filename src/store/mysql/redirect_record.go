@@ -30,10 +30,10 @@ func (r *RedirectRecordStore) CountByStartTimeAndEndTime(startTime, endTime time
 // RankTop100 获取访问前100
 func (r *RedirectRecordStore) RankTop100() []*custom.LinkRank {
 	var linkRanks []*custom.LinkRank
-	rows, err := r.Db.Raw(` SELECT link_id,count FROM (
-		SELECT link_id,COUNT(*) AS count FROM redirect_records  
+	rows, err := r.Db.Raw(` SELECT link_id,mycount FROM (
+		SELECT link_id,COUNT(*) AS mycount FROM redirect_records  
 		GROUP BY link_id 
-		) temp ORDER BY count DESC     LIMIT 0,100`).Rows()
+		) temp ORDER BY mycount DESC     LIMIT 0,100`).Rows()
 	if err != nil {
 		return nil
 	}
@@ -52,11 +52,11 @@ func (r *RedirectRecordStore) RankTop100() []*custom.LinkRank {
 // RankByStartTimeAndEndTime 获取今天访问排行榜
 func (r *RedirectRecordStore) RankByStartTimeAndEndTime(startTime, endTime time.Time) []*custom.LinkRank {
 	var linkRanks []*custom.LinkRank
-	rows, err := r.Db.Raw(`SELECT link_id,count FROM (
-		SELECT link_id,COUNT(*) AS count FROM redirect_records  
+	rows, err := r.Db.Raw(`SELECT link_id,mycount FROM (
+		SELECT link_id,COUNT(*) AS mycount FROM redirect_records  
 		WHERE  created_at >= ? AND created_at <= ?
 		GROUP BY link_id 
-		) temp ORDER BY count DESC     LIMIT 0,10`, startTime, endTime).Rows()
+		) temp ORDER BY mycount DESC     LIMIT 0,10`, startTime, endTime).Rows()
 	if err != nil {
 		return nil
 	}

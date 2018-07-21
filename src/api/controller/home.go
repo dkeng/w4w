@@ -30,17 +30,11 @@ func (h *HomeController) GetRouter() []*router.R {
 // Index 首页
 func (h *HomeController) Index(c *gin.Context) {
 	linkRanks := h.redirectRecordStore.RankTop100()
-	var ranks = make(map[int64]interface{}, len(linkRanks))
-	var ids = make([]int64, len(linkRanks))
-	for i, v := range linkRanks {
-		ids[i] = v.LinkID
-		ranks[v.LinkID] = v.Count
-	}
 	var result []map[string]interface{}
-	rank := h.linkStore.QueryInID(ids...)
-	for _, v := range rank {
-		line := structs.Map(v)
-		line["count"] = ranks[v.ID]
+	for _, v := range linkRanks {
+		linkRank := h.linkStore.QueryByID(v.LinkID)
+		line := structs.Map(linkRank)
+		line["count"] = v.Count
 		result = append(result, line)
 	}
 	c.HTML(http.StatusOK, "index.html", result)
