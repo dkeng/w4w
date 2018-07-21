@@ -4,5 +4,6 @@ package entity
 type Link struct {
 	BaseEntity
 	URL   string `gorm:"not null"`
+	Title string `gorm:"null"`
 	Short string `gorm:"not null;unique_index"`
 }

@@ -66,7 +66,8 @@ type AllStore struct {
 // NewMySQL 存储
 func NewMySQL(s *Store) *AllStore {
 	return &AllStore{
-		LinkStore: new(smysql.LinkStore).Init(s.DB),
+		LinkStore:           new(smysql.LinkStore).Init(s.DB),
+		RedirectRecordStore: new(smysql.RedirectRecordStore).Init(s.DB),
 	}
 }
 
@@ -88,14 +89,4 @@ func getLimitOffset(page, perPage *int) *int {
 	}
 	offset := (*page - 1) * *perPage
 	return &offset
-}
-
-func switchDB(tran *gorm.DB, db *gorm.DB) *gorm.DB {
-	if tran != nil {
-		return tran
-	}
-	if db != nil {
-		return db
-	}
-	panic(errors.New("事务切换失败"))
 }

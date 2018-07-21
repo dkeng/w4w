@@ -24,3 +24,8 @@ func TestCheckURL(t *testing.T) {
 	inputURL := "https://www.baidu.com"
 	fmt.Println(core.CheckURL(inputURL))
 }
+
+func TestGetURLitle(t *testing.T) {
+	inputURL := "http://w4w.cc"
+	fmt.Println(core.GetURLitle(inputURL))
+}

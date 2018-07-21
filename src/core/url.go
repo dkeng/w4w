@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/dkeng/pkg/http"
+
 	"github.com/dkeng/pkg/convert"
 )
 
@@ -68,4 +70,19 @@ func CheckURL(url string) error {
 		return errors.New("URL格式不正确")
 	}
 	return nil
+}
+
+// GetURLitle 获取网站名称
+func GetURLitle(url string) string {
+	body, err := http.Get(url, nil)
+	if err != nil {
+		return ""
+	}
+	r, _ := regexp.Compile("<title>(.*?)</title>")
+	result := r.FindString(body)
+	if result != "" {
+		result = strings.Trim(result, "<title>")
+		result = strings.Trim(result, "</title>")
+	}
+	return result
 }

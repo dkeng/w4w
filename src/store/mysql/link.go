@@ -56,3 +56,22 @@ func (l *LinkStore) QueryByShort(short string) *entity.Link {
 	}
 	return &link
 }
+
+// QueryIDByShort 根据短链接获取ID
+func (l *LinkStore) QueryIDByShort(short string) int64 {
+	var id int64
+	l.Db.Model(&entity.Link{}).Where("short = ?", short).Count(&id)
+	return id
+}
+
+// QueryInID 根据多个ID获取多个内容
+func (l *LinkStore) QueryInID(ids ...int64) []*entity.Link {
+	var links []*entity.Link
+	l.Db.Where("id in (?)", ids).Find(&links)
+	return links
+}
+
+// UpdateTitleByURL 根据URL修改标题
+func (l *LinkStore) UpdateTitleByURL(url, title string) {
+	l.Db.Table("links").Where("url = ?", url).UpdateColumn("title", title)
+}

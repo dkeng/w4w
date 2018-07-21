@@ -120,6 +120,9 @@ func (s *ShortController) AddShort(c *gin.Context) {
 		}
 		add = s.linkStore.Add(link)
 		if add {
+			go func() {
+				s.linkStore.UpdateTitleByURL(url, core.GetURLitle(url))
+			}()
 			break
 		}
 	}

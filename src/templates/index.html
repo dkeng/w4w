@@ -301,13 +301,15 @@
 								<td>人气</td>
 							</tr>
 						</thead>
+						{{range $v := .}}
 						<tr>
-							<td>http://w4w.cc</td>
+							<td>http://w4w.cc/{{$v.Short}}</td>
 							<td>
-								<a href="http://w4w.cc" target="_blank">w4w短网址</a>
+								<a href="{{$v.Short}}" target="_blank">{{$v.Title}}</a>
 							</td>
-							<td>88888</td>
+							<td>{{$v.count}}</td>
 						</tr>
+						{{end}}
 					</table>
 					<br />
 					<div class="foot">

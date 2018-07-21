@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"reflect"
 	"strconv"
 )
 
@@ -86,4 +87,15 @@ func BytesToInt64(data []byte) int64 {
 	buffer := bytes.NewBuffer(data)
 	binary.Read(buffer, binary.BigEndian, &num)
 	return num
+}
+
+// StructToMap 结构体转Map
+func StructToMap(obj interface{}) map[string]interface{} {
+	t := reflect.TypeOf(obj)
+	v := reflect.ValueOf(obj)
+	var data = make(map[string]interface{})
+	for i := 0; i < t.NumField(); i++ {
+		data[t.Field(i).Name] = v.Field(i).Interface()
+	}
+	return data
 }

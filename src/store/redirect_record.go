@@ -6,4 +6,6 @@ import "time"
 type RedirectRecordStore interface {
 	// CountByStartTimeAndEndTime 查询指定时间范围内的数量
 	CountByStartTimeAndEndTime(startTime, endTime time.Time) int64
+	// RankByStartTimeAndEndTime 获取今天访问排行榜
+	RankByStartTimeAndEndTime(startTime, endTime time.Time) []map[string]interface{}
 }

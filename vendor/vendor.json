@@ -9,10 +9,10 @@
 			"revisionTime": "2018-01-18T20:34:23Z"
 		},
 		{
-			"checksumSHA1": "EpHeeZUpvy6NUBzjQGPMHSTokec=",
+			"checksumSHA1": "rpB7rnQ4gSaZjECDQ0UNCGzazOg=",
 			"path": "github.com/dkeng/pkg/convert",
-			"revision": "529822ddccb71bbf31037d1fb67dca2608c5f927",
-			"revisionTime": "2018-07-10T08:45:01Z"
+			"revision": "2db5df4437703bc4c55f19c0bd5f89568a539009",
+			"revisionTime": "2018-07-21T02:31:14Z"
 		},
 		{
 			"checksumSHA1": "zE1h+TpPWTJZg1LTl0UeU70AGAo=",
@@ -25,6 +25,12 @@
 			"path": "github.com/evalphobia/logrus_sentry",
 			"revision": "b78b27461c8163c45abf4ab3a8330d2b1ee9456a",
 			"revisionTime": "2018-05-25T08:55:11Z"
+		},
+		{
+			"checksumSHA1": "5BP5xofo0GoFi6FtgqFFbmHyUKI=",
+			"path": "github.com/fatih/structs",
+			"revision": "ebf56d35bba727c68ac77f56f2fcf90b181851aa",
+			"revisionTime": "2018-01-23T06:50:59Z"
 		},
 		{
 			"checksumSHA1": "7NP1qUMF8Kx1y0zANxx0e+oq9Oo=",
