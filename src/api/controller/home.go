@@ -1,10 +1,8 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
-	"github.com/dkeng/pkg/time"
 	"github.com/dkeng/w4w/src/server/router"
 	"github.com/dkeng/w4w/src/store"
 	"github.com/fatih/structs"
@@ -31,8 +29,7 @@ func (h *HomeController) GetRouter() []*router.R {
 
 // Index 首页
 func (h *HomeController) Index(c *gin.Context) {
-	s, e := time.TodayStartEndTime()
-	rankList := h.redirectRecordStore.RankByStartTimeAndEndTime(s, e)
+	rankList := h.redirectRecordStore.RankTop100()
 	var ranks = make(map[int64]interface{}, len(rankList))
 	var ids = make([]int64, len(rankList))
 	for i, v := range rankList {
@@ -46,6 +43,5 @@ func (h *HomeController) Index(c *gin.Context) {
 		line["count"] = ranks[v.ID]
 		result = append(result, line)
 	}
-	fmt.Println(result)
 	c.HTML(http.StatusOK, "index.html", result)
 }

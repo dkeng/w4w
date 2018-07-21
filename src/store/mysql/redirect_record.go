@@ -27,12 +27,32 @@ func (r *RedirectRecordStore) CountByStartTimeAndEndTime(startTime, endTime time
 	return 0
 }
 
+// RankTop100 获取访问前100
+func (r *RedirectRecordStore) RankTop100() []map[string]interface{} {
+	var result []map[string]interface{}
+	rows, err := r.Db.Raw(` SELECT * FROM (
+		SELECT link_id,COUNT(*) AS count FROM redirect_records  
+		GROUP BY link_id 
+		) ORDER BY count DESC     LIMIT 0,100`).Rows()
+	if err != nil {
+		return nil
+	}
+	defer rows.Close()
+	result, err = store.ScanRowsToMaps(rows)
+	if err != nil {
+		return nil
+	}
+	return result
+}
+
 // RankByStartTimeAndEndTime 获取今天访问排行榜
 func (r *RedirectRecordStore) RankByStartTimeAndEndTime(startTime, endTime time.Time) []map[string]interface{} {
 	var result []map[string]interface{}
-	rows, err := r.Db.Raw(`SELECT link_id,COUNT(*) AS count FROM redirect_records  
-	WHERE  created_at >= ? AND created_at <= ? 
-	GROUP BY link_id LIMIT 0,10`, startTime, endTime).Rows()
+	rows, err := r.Db.Raw(`SELECT * FROM (
+		SELECT link_id,COUNT(*) AS count FROM redirect_records  
+		WHERE  created_at >= ? AND created_at <= ?
+		GROUP BY link_id 
+		) ORDER BY count DESC     LIMIT 0,10`, startTime, endTime).Rows()
 	if err != nil {
 		return nil
 	}
