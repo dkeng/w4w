@@ -3,8 +3,8 @@ package mysql
 import (
 	"time"
 
-	"github.com/dkeng/pkg/store"
 	"github.com/dkeng/w4w/src/entity"
+	"github.com/dkeng/w4w/src/entity/custom"
 	"github.com/jinzhu/gorm"
 )
 
@@ -28,38 +28,46 @@ func (r *RedirectRecordStore) CountByStartTimeAndEndTime(startTime, endTime time
 }
 
 // RankTop100 获取访问前100
-func (r *RedirectRecordStore) RankTop100() []map[string]interface{} {
-	var result []map[string]interface{}
-	rows, err := r.Db.Raw(` SELECT * FROM (
+func (r *RedirectRecordStore) RankTop100() []*custom.LinkRank {
+	var linkRanks []*custom.LinkRank
+	rows, err := r.Db.Raw(` SELECT link_id,count FROM (
 		SELECT link_id,COUNT(*) AS count FROM redirect_records  
 		GROUP BY link_id 
-		) ORDER BY count DESC     LIMIT 0,100`).Rows()
+		) temp ORDER BY count DESC     LIMIT 0,100`).Rows()
 	if err != nil {
 		return nil
 	}
 	defer rows.Close()
-	result, err = store.ScanRowsToMaps(rows)
-	if err != nil {
-		return nil
+	for rows.Next() {
+		var linkRank custom.LinkRank
+		err := r.Db.ScanRows(rows, &linkRank)
+		if err != nil {
+			return nil
+		}
+		linkRanks = append(linkRanks, &linkRank)
 	}
-	return result
+	return linkRanks
 }
 
 // RankByStartTimeAndEndTime 获取今天访问排行榜
-func (r *RedirectRecordStore) RankByStartTimeAndEndTime(startTime, endTime time.Time) []map[string]interface{} {
-	var result []map[string]interface{}
-	rows, err := r.Db.Raw(`SELECT * FROM (
+func (r *RedirectRecordStore) RankByStartTimeAndEndTime(startTime, endTime time.Time) []*custom.LinkRank {
+	var linkRanks []*custom.LinkRank
+	rows, err := r.Db.Raw(`SELECT link_id,count FROM (
 		SELECT link_id,COUNT(*) AS count FROM redirect_records  
 		WHERE  created_at >= ? AND created_at <= ?
 		GROUP BY link_id 
-		) ORDER BY count DESC     LIMIT 0,10`, startTime, endTime).Rows()
+		) temp ORDER BY count DESC     LIMIT 0,10`, startTime, endTime).Rows()
 	if err != nil {
 		return nil
 	}
 	defer rows.Close()
-	result, err = store.ScanRowsToMaps(rows)
-	if err != nil {
-		return nil
+	for rows.Next() {
+		var linkRank custom.LinkRank
+		err := r.Db.ScanRows(rows, &linkRank)
+		if err != nil {
+			return nil
+		}
+		linkRanks = append(linkRanks, &linkRank)
 	}
-	return result
+	return linkRanks
 }

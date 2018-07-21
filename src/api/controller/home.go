@@ -29,12 +29,12 @@ func (h *HomeController) GetRouter() []*router.R {
 
 // Index 首页
 func (h *HomeController) Index(c *gin.Context) {
-	rankList := h.redirectRecordStore.RankTop100()
-	var ranks = make(map[int64]interface{}, len(rankList))
-	var ids = make([]int64, len(rankList))
-	for i, v := range rankList {
-		ids[i] = v["link_id"].(int64)
-		ranks[v["link_id"].(int64)] = v["count"].(int64)
+	linkRanks := h.redirectRecordStore.RankTop100()
+	var ranks = make(map[int64]interface{}, len(linkRanks))
+	var ids = make([]int64, len(linkRanks))
+	for i, v := range linkRanks {
+		ids[i] = v.LinkID
+		ranks[v.LinkID] = v.Count
 	}
 	var result []map[string]interface{}
 	rank := h.linkStore.QueryInID(ids...)
